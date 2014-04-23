@@ -3,46 +3,60 @@
 return array(
     'router' => array(
         'routes' => array(
-            'home' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+            'home' => [
+                'type' => 'literal',
                 'options' => array(
                     'route'    => '/',
                     'defaults' => array(
-                        'controller' => 'Blog\Controller\Index',
-                        'action'     => 'index',
+                        'controller' => 'RznBlog\Controller\Index',
+                        'action'     => 'list',
                     ),
                 ),
-            ),
-            // The following is a route to simplify getting started creating
-            // new controllers and actions without needing to create a new
-            // module. Simply drop new controllers in, and you can access them
-            // using the path /application/:controller/:action
-            'article' => array(
-                'type'    => 'Regex',
+            ],
+            'rznblog_post_old' => [
+                'type'    => 'regex',
                 'options' => array(
-                    'route'    => '/.html',
+                    'regex'    => '/article/(?<id>[0-9]+).html',
                     'defaults' => array(
-                        '__NAMESPACE__' => 'Application\Controller',
-                        'controller'    => 'Index',
+                        'controller'    => 'RznBlog\Controller\Index',
                         'action'        => 'post',
                     ),
+                    'spec' => '/article/%id%.html',
                 ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    'default' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/[:controller[/:action]]',
-                            'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            ),
-                            'defaults' => array(
-                            ),
-                        ),
+
+            ],
+            'rznblog_post' => [
+                'type'    => 'regex',
+                'options' => array(
+                    'regex'    => '/(?<id>[0-9]+).html',
+                    'defaults' => array(
+                        'controller'    => 'RznBlog\Controller\Index',
+                        'action'        => 'post',
                     ),
+                    'spec' => '/%id%.html',
                 ),
-            ),
+            ],
+            'rznblog_list' => [
+                'type'    => 'segment',
+                'options' => array(
+                    //'regex'    => '/category/(?<category>[0-9a-b_-]+)(/page/(?<page>([0-9]+)))?',
+                    'route'    => '[/date/[:date]][/category/[:category][[/][:category1]][[/][:category2]]][/page/[:page]][/]',
+                    'constraints' => array(
+                        'category'  => '[(^page)a-zA-Z0-9_-]+',
+                        'category1' => '[(^page)a-zA-Z0-9_-]+',
+                        'category2' => '[(^page)a-zA-Z0-9_-]+',
+                        'page'     => '[0-9]+',
+                        'date'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller'    => 'RznBlog\Controller\Index',
+                        'action'        => 'list',
+                        'page'          => 1,
+                    ),
+                    //'spec' => '/category/%category%/page/%page%',
+                ),
+            ],
+
         ),
     ),
     'service_manager' => array(
@@ -66,7 +80,7 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Blog\Controller\Index' => ' Blog\Controller\IndexController'
+            'RznBlog\Controller\Index' => 'RznBlog\Controller\IndexController'
         ),
     ),
     'view_manager' => array(

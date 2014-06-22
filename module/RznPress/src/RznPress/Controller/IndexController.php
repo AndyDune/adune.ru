@@ -1,6 +1,6 @@
 <?php
 
-namespace RznBlog\Controller;
+namespace RznPress\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
@@ -14,15 +14,28 @@ class IndexController extends AbstractActionController
 
     public function listAction()
     {
+        $category = [];
         $category = $this->params()->fromRoute('category', null);
-        $category1 = $this->params()->fromRoute('category1', null);
-        $category2 = $this->params()->fromRoute('category2', null);
+
         $page = $this->params()->fromRoute('page', null);
-        return ['category' => $category,'category2' => $category2,'category1' => $category1, 'page' => $page];
+        $date = $this->params()->fromRoute('date', null);
+
+        return ['category' => $category, 'page' => $page, 'date' => $date];
     }
 
     public function postAction()
     {
-        return new ViewModel();
+        $id = $this->params()->fromRoute('id', null);
+        return ['id' => $id];
     }
+
+    /**
+     * Список всех доступных категорий
+     * @return array
+     */
+    public function getCategoryAvailable()
+    {
+
+    }
+
 }

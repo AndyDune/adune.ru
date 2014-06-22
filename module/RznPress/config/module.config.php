@@ -8,35 +8,36 @@ return array(
                 'options' => array(
                     'route'    => '/',
                     'defaults' => array(
-                        'controller' => 'RznBlog\Controller\Index',
+                        'controller' => 'RznPress\Controller\Index',
                         'action'     => 'list',
                     ),
                 ),
             ],
-            'rznblog_post_old' => [
+            'rznpress_post_old' => [
                 'type'    => 'regex',
                 'options' => array(
                     'regex'    => '/article/(?<id>[0-9]+).html',
                     'defaults' => array(
-                        'controller'    => 'RznBlog\Controller\Index',
+                        'controller'    => 'RznPress\Controller\Index',
                         'action'        => 'post',
                     ),
                     'spec' => '/article/%id%.html',
                 ),
 
             ],
-            'rznblog_post' => [
+            'rznpress_post' => [
                 'type'    => 'regex',
                 'options' => array(
                     'regex'    => '/(?<id>[0-9]+).html',
                     'defaults' => array(
-                        'controller'    => 'RznBlog\Controller\Index',
+                        'controller'    => 'RznPress\Controller\Index',
                         'action'        => 'post',
                     ),
                     'spec' => '/%id%.html',
                 ),
             ],
-            'rznblog_list' => [
+            /*
+            'rznpress_list_zend' => [
                 'type'    => 'segment',
                 'options' => array(
                     //'regex'    => '/category/(?<category>[0-9a-b_-]+)(/page/(?<page>([0-9]+)))?',
@@ -49,7 +50,27 @@ return array(
                         'date'     => '[0-9]+',
                     ),
                     'defaults' => array(
-                        'controller'    => 'RznBlog\Controller\Index',
+                        'controller'    => 'RznPress\Controller\Index',
+                        'action'        => 'list',
+                        'page'          => 1,
+                    ),
+                    //'spec' => '/category/%category%/page/%page%',
+                ),
+            ],
+*/
+            'rznpress_list' => [
+                'type'    => 'RznPress\Router\PathArrayParams',
+                'options' => array(
+                    //'regex'    => '/category/(?<category>[0-9a-b_-]+)(/page/(?<page>([0-9]+)))?',
+                    'route'    => '/article/',
+                    'params'   => ['category', 'page', 'date'],
+                    'constraints' => array(
+                        'category'     => ['count_min' => 1, 'last_to_string' => true, 'regex' => '[a-zA-Z0-9_-]+'],
+                        'date'         => ['count_max' => 3, 'regex' => '[0-9]+'],
+                        'page'         => ['regex' => '[0-9]+'],
+                    ),
+                    'defaults' => array(
+                        'controller'    => 'RznPress\Controller\Index',
                         'action'        => 'list',
                         'page'          => 1,
                     ),
@@ -60,6 +81,12 @@ return array(
         ),
     ),
     'service_manager' => array(
+
+        'invokables' => array(
+            'RznPress\Router\PathArrayParams' => 'RznPress\Router\PathArrayParams'
+        ),
+
+
         'abstract_factories' => array(
             'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
             'Zend\Log\LoggerAbstractServiceFactory',
@@ -80,7 +107,7 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'RznBlog\Controller\Index' => 'RznBlog\Controller\IndexController'
+            'RznPress\Controller\Index' => 'RznPress\Controller\IndexController'
         ),
     ),
     'view_manager' => array(

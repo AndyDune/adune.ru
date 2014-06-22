@@ -21,14 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @package     Blog
+ * @package     RznPress
  * @author      Andrey Ryzhov <info@rznw.ru>
  * @copyright   2014 Andrey Ryzhov.
  * @license     http://www.opensource.org/licenses/mit-license.php  MIT License
- * @link https://github.com/AndyDune/adune.ru for the canonical source repository
+ * @link https://github.com/AndyDune/RznPress for the canonical source repository
  */
 
-namespace RznBlog;
+namespace RznPress;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;

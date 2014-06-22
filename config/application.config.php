@@ -5,7 +5,7 @@ return array(
         'ZeTheme',
         'RznViewComponent',
         'RznViewFilesPath',
-        'RznBlog',
+        'RznPress',
     ),
 
     // These are various options for the listeners attached to the ModuleManager

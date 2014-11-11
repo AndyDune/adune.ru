@@ -150,7 +150,6 @@ class PathArrayParams implements RouteInterface
             return null;
         }
 
-
         //echo $this->route;
         $matchedString = substr($path, strlen($this->route));
 
@@ -163,15 +162,75 @@ class PathArrayParams implements RouteInterface
 
         echo $matchedString;
 
-        $params = array();
+        $params = [];
 
         $parts = explode('/', $matchedString);
 
+        // Создание массива свойств параметров.
+        $currentParam = '';
         foreach($parts as $part) {
             if (!$part) continue;
+            /**
+             * Имеет значение порядок параметров - если параметр попадается второй раз
+             *      - он используется как значение для предыдущего.
+             */
+            if (in_array($part, $this->params)) {
+                if (!isset($params[$part])) {
+                    $currentParam = $part;
+                    $params[$part] = [];
+                    continue;
+                }
+            }
+            if (!$currentParam) {
+                // Незарегистрированный параметр - маршрут не наш.
+                return null;
+            }
+            $params[$currentParam][] = $part;
+        }
+        //
+        foreach($this->constraints as $name => $reqs) {
+            if (!array_key_exists($name, $params)) {
+                if (isset($reqs['required'])) {
+                    return null;
+                }
+                continue; // Нечего обрабатывать
+            }
+            $countValues = count($params[$name]);
+            if (isset($reqs['count_min']) and $countValues < $reqs['count_min']) {
+                return null;
+            }
+            if (isset($reqs['count_max']) and $countValues > $reqs['count_max']) {
+                return null;
+            }
+            if (isset($reqs['regex'])) {
+                if (!is_array($reqs['regex'])) {
+                    $reqs['regex'] = ['all' => $reqs['regex']];
+                }
+                foreach($params as $n => $v) {
+                    if (isset($reqs['regex'][$n])) {
+                        $regex = $reqs['regex'][$n];
+                    } else if (isset($reqs['regex']['all'])) {
+                        $regex = $reqs['regex']['all'];
+                    } else {
+                        continue;
+                    }
+
+                    $result = preg_match('(^' . $regex . '$)', $v, $matches);
+
+                    if (!$result) {
+                        return null;
+                    }
+                }
+            }
+            if (isset($reqs['last_to_string']) and $reqs['last_to_string']) {
+                if ($countValues) {
+                    $params[$name] = $params[$countValues - 1];
+                } else {
+                    $params[$name] = '';
+                }
+            }
 
         }
-
 
         return new RouteMatch(array_merge($this->defaults, $params), $matchedLength);
 

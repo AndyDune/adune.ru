@@ -1,12 +1,12 @@
 {
-    "name": "andydune/rzn-zend-skeleton",
+    "name": "andydune/rznwru",
     "description": "Rzn projects skeleton application.",
     "type": "library",
     "license": "MIT",
     "keywords": [
         "zf2", "rzn", "php", "component"
     ],
-    "homepage": "https://github.com/AndyDune/RznZendSkeleton",
+    "homepage": "https://github.com/AndyDune/rznw.ru",
     "authors": [
         {
             "name": "Andrey Ryzhov",
@@ -17,7 +17,6 @@
     "require": {
         "php": ">=5.4.0",
         "zendframework/zendframework": "2.*",
-        "zendexperts/ze-theme": "dev-master",
-        "andydune/rzn-view-component": "dev-master"
+        "zendexperts/ze-theme": "dev-master"
     }
 }

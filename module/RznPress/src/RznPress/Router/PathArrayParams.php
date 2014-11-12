@@ -160,7 +160,7 @@ class PathArrayParams implements RouteInterface
             return null;
         }
 
-        echo $matchedString;
+        //echo $matchedString;
 
         $params = [];
 
@@ -188,6 +188,7 @@ class PathArrayParams implements RouteInterface
             $params[$currentParam][] = $part;
         }
         //
+        //print_r($params);
         foreach($this->constraints as $name => $reqs) {
             if (!array_key_exists($name, $params)) {
                 if (isset($reqs['required'])) {
@@ -206,7 +207,7 @@ class PathArrayParams implements RouteInterface
                 if (!is_array($reqs['regex'])) {
                     $reqs['regex'] = ['all' => $reqs['regex']];
                 }
-                foreach($params as $n => $v) {
+                foreach($params[$name] as $n => $v) {
                     if (isset($reqs['regex'][$n])) {
                         $regex = $reqs['regex'][$n];
                     } else if (isset($reqs['regex']['all'])) {
@@ -214,7 +215,6 @@ class PathArrayParams implements RouteInterface
                     } else {
                         continue;
                     }
-
                     $result = preg_match('(^' . $regex . '$)', $v, $matches);
 
                     if (!$result) {
@@ -224,14 +224,20 @@ class PathArrayParams implements RouteInterface
             }
             if (isset($reqs['last_to_string']) and $reqs['last_to_string']) {
                 if ($countValues) {
-                    $params[$name] = $params[$countValues - 1];
+                    $params[$name] = $params[$name][$countValues - 1];
                 } else {
                     $params[$name] = '';
                 }
             }
-
+            if (isset($reqs['first_to_string']) and $reqs['first_to_string']) {
+                if ($countValues) {
+                    $params[$name] = $params[$name][0];
+                } else {
+                    $params[$name] = '';
+                }
+            }
         }
-
+        //print_r($params);
         return new RouteMatch(array_merge($this->defaults, $params), $matchedLength);
 
 

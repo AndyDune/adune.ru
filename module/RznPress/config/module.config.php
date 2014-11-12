@@ -66,7 +66,7 @@ return array(
                     'params'   => ['category', 'page', 'date'],
                     'constraints' => array(
                         'category'     => ['count_min' => 1, 'last_to_string' => true, 'regex' => '[a-zA-Z0-9_-]+'],
-                        'date'         => ['count_max' => 3, 'regex' => '[0-9]+'],
+                        'date'         => ['count_max' => 3, 'regex' => ['[0-9]{4}', '[0-9]{1,2}', '[0-9]{1,2}']],
                         'page'         => ['regex' => '[0-9]+'],
                     ),
                     'defaults' => array(
@@ -81,7 +81,6 @@ return array(
         ),
     ),
     'service_manager' => array(
-
         'invokables' => array(
             'RznPress\Router\PathArrayParams' => 'RznPress\Router\PathArrayParams'
         ),

@@ -238,6 +238,7 @@ class PathArrayParams implements RouteInterface
             }
         }
         //print_r($params);
+        //echo $matchedLength;
         return new RouteMatch(array_merge($this->defaults, $params), $matchedLength);
 
 
@@ -246,6 +247,21 @@ class PathArrayParams implements RouteInterface
 
     public function assemble(array $params = array(), array $options = array())
     {
+        $url                   = $this->route . '/';
+        $this->assembledParams = array();
+
+        foreach($this->constraints as $name => $reqs) {
+            if (!array_key_exists($name, $params)) {
+                continue; // Нечего добавить
+            }
+            if (!is_array($params[$name])) {
+                $params[$name] = [$params[$name]];
+            }
+            $this->assembledParams[] = $name;
+            $url .= $name . '/' . implode('/', $params[$name]) . '/';
+        }
+
+        return $url;
 
     }
 

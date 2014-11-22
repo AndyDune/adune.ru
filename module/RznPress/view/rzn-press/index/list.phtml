@@ -3,4 +3,6 @@
     <li>Категория: <? print_r($this->category) ?></li>
     <li>Дата: <? print_r($this->date); ?></li>
     <li>Страница: <?= $this->page ?></li>
+    <li>Ссылка: <a href="<?= $this->url('rznpress_list', ['category' => ['auto', 'all'],
+            'date' => ['2011', 3, 24]]) ?>">Кликать тут</a></li>
 </ul>

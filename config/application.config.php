@@ -6,6 +6,7 @@ return array(
         //'RznViewComponent',
         'RznViewFilesPath',
         'RznPress',
+        'RznAdmin',
     ),
 
     // These are various options for the listeners attached to the ModuleManager

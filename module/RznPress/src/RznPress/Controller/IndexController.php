@@ -20,6 +20,8 @@ class IndexController extends AbstractActionController
         $page = $this->params()->fromRoute('page', null);
         $date = $this->params()->fromRoute('date', null);
 
+        $eventManager = $this->getEventManager();
+
         return ['category' => $category, 'page' => $page, 'date' => $date];
     }
 

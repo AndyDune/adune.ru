@@ -9,7 +9,7 @@ return array(
                     'route'    => '/',
                     'defaults' => array(
                         'controller' => 'RznPress\Controller\Index',
-                        'action'     => 'list',
+                        'action'     => 'index',
                     ),
                 ),
             ],

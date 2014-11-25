@@ -20,20 +20,6 @@ class IndexController extends AbstractActionController
         $page = $this->params()->fromRoute('page', null);
         $date = $this->params()->fromRoute('date', null);
 
-        /** @var \RznBase\EventManager\EventManager $eventManager */
-        $eventManager = $this->getEventManager();
-        //print_r($eventManager);
-        $sm = $this->getServiceLocator();
-
-        $eventManager = $sm->get('rzn_event_manager');
-        $eventManager->trigger('user_login_after', $this, ['line' => __LINE__]);
-        /** @var \Zend\EventManager\ResponseCollection $res */
-        $res = $eventManager->trigger('user_login_after', $this, ['line' => __LINE__]);
-        if ($res->stopped()) {
-            // Обработчик был остановлен - это ошибка.
-            ?><h2>Остановлено</h2><?
-        }
-        print_r($res);
 
         return ['category' => $category, 'page' => $page, 'date' => $date];
     }

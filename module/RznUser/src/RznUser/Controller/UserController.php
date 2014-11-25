@@ -45,6 +45,15 @@ class UserController extends AbstractActionController
         if (!$this->zfcUserAuthentication()->hasIdentity()) {
             return $this->redirect()->toRoute(static::ROUTE_LOGIN);
         }
+
+        $eventManager = $sm->get('rzn_event_manager');
+        $eventManager->trigger('user_login_after', $this, ['line' => __LINE__]);
+        /** @var \Zend\EventManager\ResponseCollection $res */
+        $res = $eventManager->trigger('user_login_after', $this, ['line' => __LINE__]);
+        if ($res->stopped()) {
+            //?><h2>Остановлено</h2><?
+        }
+
         return new ViewModel();
     }
 

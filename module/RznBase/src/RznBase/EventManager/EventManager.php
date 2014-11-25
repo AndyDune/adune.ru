@@ -50,7 +50,6 @@ class EventManager extends ZendEventManager implements ServiceLocatorAwareInterf
     {
         // Зарегистрировать обратотчики событий.
         if (is_string($event) and isset($this->eventConfig[$event])) {
-            echo '<h2>init leisteners for ' . $event . '</h2>';
             if (isset($this->eventConfig[$event]['invokables']) and is_array($this->eventConfig[$event]['invokables'])) {
                 foreach($this->eventConfig[$event]['invokables'] as $listener) {
                     $object = new $listener();
@@ -89,10 +88,13 @@ class EventManager extends ZendEventManager implements ServiceLocatorAwareInterf
             $this->events[$event] = new PriorityQueue();
         }
 
+        /**
+         * Если не неализован метод __invoke смотрим есть ли нужный интефейс.
+         * Упаковываем в замыкание для того, чтобы скормить битриксу.
+         */
         if (!is_callable($object)) {
             if ($object instanceof EventListenerInterface) {
                 $object = function($e) use ($object) {
-                    echo '<h2>Сработало замыкание</h2>';
                     return $object->trigger($e);
                 };
             }

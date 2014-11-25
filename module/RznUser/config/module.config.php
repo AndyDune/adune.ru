@@ -10,6 +10,9 @@
   */
 return array(
     'rzn_event_manager' => [
+        'user_login_before' => array(
+            'invokables' => ['RznUser\EventListener\UserLoginBefore' => 'RznUser\EventListener\UserLoginBefore'],
+        ),
         'user_login_after' => array(
             'invokables' => ['RznUser\EventListener\UserLogin' => 'RznUser\EventListener\UserLogin'],
         )

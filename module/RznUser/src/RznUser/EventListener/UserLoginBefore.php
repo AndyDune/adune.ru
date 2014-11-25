@@ -9,14 +9,13 @@
   *
   */
 
-
 namespace RznUser\EventListener;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use RznBase\EventManager\Event;
 use RznBase\EventManager\EventListenerInterface;
 
-class UserLogin implements ServiceLocatorAwareInterface, EventListenerInterface
+class UserLoginBefore implements ServiceLocatorAwareInterface, EventListenerInterface
 {
     /**
      * @var ServiceLocatorInterface
@@ -36,7 +35,7 @@ class UserLogin implements ServiceLocatorAwareInterface, EventListenerInterface
     public function trigger($e)
     {
         echo get_class($e->getTarget());
-        //$e->stopPropagation(); // если ошибка
+        //$e->stopPropagation(); - если ошибка
         print_r($e->getParams());
     }
 
@@ -60,4 +59,4 @@ class UserLogin implements ServiceLocatorAwareInterface, EventListenerInterface
         return $this->serviceManager;
     }
 
-} 
+}

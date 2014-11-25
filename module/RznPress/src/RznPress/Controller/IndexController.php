@@ -20,7 +20,14 @@ class IndexController extends AbstractActionController
         $page = $this->params()->fromRoute('page', null);
         $date = $this->params()->fromRoute('date', null);
 
+        /** @var \RznBase\EventManager\EventManager $eventManager */
         $eventManager = $this->getEventManager();
+        $sm = $this->getServiceLocator();
+
+        $eventManager = $sm->get('rzn_event_manager');
+        $eventManager->trigger('user_login_after', $this, ['line' => __LINE__]);
+
+        $eventManager->trigger('user_login_after', $this, ['line' => __LINE__]);
 
         return ['category' => $category, 'page' => $page, 'date' => $date];
     }

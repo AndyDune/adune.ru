@@ -8,18 +8,10 @@
   * ----------------------------------------------------
   *
   */
- return array(
-     'service_manager' => [
-         'invokables' => [
-             'rzn_event_manager' => 'RznBase\EventManager\EventManager'
-         ]
-     ],
-     'rzn_event_manager' => [
-         'event_name' => array(
-             'invokables' => [],
-             'factories'  => [],
-             'services'   => []
-         )
-     ]
-
- );
+return array(
+    'rzn_event_manager' => [
+        'user_login_after' => array(
+            'invokables' => ['RznUser\EventListener\UserLogin' => 'RznUser\EventListener\UserLogin'],
+        )
+    ]
+);

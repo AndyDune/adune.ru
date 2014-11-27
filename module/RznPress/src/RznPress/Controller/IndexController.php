@@ -9,6 +9,8 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
+        $events = $this->getEventManager();
+        //print_r($events->getListeners('dispatch'));
         return new ViewModel();
     }
 

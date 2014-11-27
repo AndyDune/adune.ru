@@ -9,6 +9,7 @@
   *
   */
 
+namespace RznUser\Factory\Controller;
 
 use Zend\Mvc\Controller\ControllerManager;
 use Zend\ServiceManager\FactoryInterface;
@@ -32,8 +33,8 @@ class UserControllerFactory implements FactoryInterface
         /* @var ServiceLocatorInterface $serviceLocator */
         $this->serviceLocator = $controllerManager->getServiceLocator();
 
-        $userService = $this->serviceLocator->get('rznuser_user_service');
-        $options = $this->serviceLocator->get('rznuser_module_options');
+        $userService = null;//$this->serviceLocator->get('rznuser_user_service');
+        $options = null;//$this->serviceLocator->get('rznuser_module_options');
 
         $controller = new UserController($userService, $options);
         $eventManager = $controller->getEventManager();

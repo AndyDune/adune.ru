@@ -11,14 +11,18 @@
 
 namespace RznUser\Controller;
 
+use RznBase\EventManager\EventManagerAwareInterface;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\EventManager\EventManagerInterface;
 use Zend\View\Model\ViewModel;
 
 
-class UserController extends AbstractActionController
+class UserController extends AbstractActionController implements EventManagerAwareInterface
 {
     protected $loginForm = null;
     protected $registerForm = null;
+
+    protected $configurableEvents;
 
     /**
      * @var UserService
@@ -37,16 +41,19 @@ class UserController extends AbstractActionController
         $this->options = $options;
     }
 
+
+    public function setConfigurableEventManager(EventManagerInterface $eventManager)
+    {
+        $this->configurableEvents = $eventManager;
+    }
+
     /**
      * User page
      */
-    public function indexAction()
+    public function loginAction()
     {
-        if (!$this->zfcUserAuthentication()->hasIdentity()) {
-            return $this->redirect()->toRoute(static::ROUTE_LOGIN);
-        }
 
-        $eventManager = $sm->get('rzn_event_manager');
+        $eventManager = $this->configurableEvents;
         $eventManager->trigger('user_login_after', $this, ['line' => __LINE__]);
         /** @var \Zend\EventManager\ResponseCollection $res */
         $res = $eventManager->trigger('user_login_after', $this, ['line' => __LINE__]);

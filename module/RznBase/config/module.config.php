@@ -11,15 +11,27 @@
  return array(
      'service_manager' => [
          'invokables' => [
-             'rzn_event_manager' => 'RznBase\EventManager\EventManager'
+             'RznBase\EventManager\EventManager' => 'RznBase\EventManager\EventManager'
+         ],
+         'initializers' => [
+             'RznBase\EventManager\Initializer'
          ]
      ],
+
+     'controllers' => [
+         'initializers' => [
+             'RznBase\EventManager\Initializer'
+         ]
+     ]
+     /*
+      * Шаблон для описания слушателей событий.
      'rzn_event_manager' => [
-         'event_name' => array(
+         '<event_name>' => array(
              'invokables' => [],
              'factories'  => [],
              'services'   => []
          )
      ]
+     */
 
  );

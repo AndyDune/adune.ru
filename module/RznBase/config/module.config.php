@@ -19,8 +19,14 @@
      ],
 
      'controllers' => [
-         'initializers' => [
-             'RznBase\EventManager\Initializer'
+     ],
+
+     'controller_plugins' => [
+         'invokables' => [
+             'configurableEventManager' => 'RznBase\Controller\Plugin\ConfigurableEventManager'
+         ],
+         'aliases' => [
+             'configurableEvents' => 'configurableEventManager'
          ]
      ]
      /*

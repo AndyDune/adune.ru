@@ -115,8 +115,8 @@ class EventManager extends ZendEventManager implements ServiceLocatorAwareInterf
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('config');
-        if (isset($config['rzn_event_manager'])) {
-            $this->setEventConfig($config['rzn_event_manager']);
+        if (isset($config['configurable_event_manager']['listeners'])) {
+            $this->setEventConfig($config['configurable_event_manager']['listeners']);
         }
         $this->serviceManager = $serviceLocator;
     }
